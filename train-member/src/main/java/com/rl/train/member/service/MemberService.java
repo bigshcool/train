@@ -25,7 +25,7 @@ public class MemberService {
         memberExample.createCriteria().andMobileEqualTo(req.getMobile());
         List<Member> members = mapper.selectByExample(memberExample);
         if (CollUtil.isNotEmpty(members)){
-            return members.get(0).getId();
+            throw new RuntimeException("手机号已经注册");
         }
         Member member = new Member();
         member.setId(System.currentTimeMillis());
