@@ -1,5 +1,6 @@
 package com.rl.train.common.controller;
 
+import com.rl.train.common.exception.BusinessException;
 import com.rl.train.common.resp.CommonResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,17 @@ public class ControllerExceptionHandler {
         CommonResp<Object> commonResp = new CommonResp<>();
         LOG.info("系统异常: ", e);
         commonResp.setSuccess(false);
-        commonResp.setMessage(e.getMessage());
+        commonResp.setMessage("系统出现异常，请联系管理员");
+        return commonResp;
+    }
+    
+    @ExceptionHandler(value = BusinessException.class)
+    @ResponseBody
+    public CommonResp exceptionHandler(BusinessException e){
+        CommonResp<Object> commonResp = new CommonResp<>();
+        LOG.info("系统异常: ", e);
+        commonResp.setSuccess(false);
+        commonResp.setMessage(e.getAnEnum().getDesc());
         return commonResp;
     }
 }
