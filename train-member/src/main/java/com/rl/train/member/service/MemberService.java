@@ -1,6 +1,8 @@
 package com.rl.train.member.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.rl.train.common.exception.BusinessException;
 import com.rl.train.common.exception.BusinessExceptionEnum;
@@ -8,8 +10,10 @@ import com.rl.train.common.util.SnowUtil;
 import com.rl.train.member.domain.Member;
 import com.rl.train.member.domain.MemberExample;
 import com.rl.train.member.mapper.MemberMapper;
+import com.rl.train.member.req.MemberLoginReq;
 import com.rl.train.member.req.MemberRegisterReq;
 import com.rl.train.member.req.MemberSendCodeReq;
+import com.rl.train.member.resp.MemberLoginResp;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +34,8 @@ public class MemberService {
     }
     
     public Long register(MemberRegisterReq req){
-        MemberExample memberExample = new MemberExample();
-        memberExample.createCriteria().andMobileEqualTo(req.getMobile());
-        List<Member> members = mapper.selectByExample(memberExample);
-        if (CollUtil.isNotEmpty(members)){
+        Member memberDb = selectByMobile(req.getMobile());
+        if (ObjectUtil.isNotEmpty(memberDb)){
             throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
         Member member = new Member();
@@ -44,12 +46,10 @@ public class MemberService {
     }
     
     public void sendCode(MemberSendCodeReq req){
-        
-        MemberExample memberExample = new MemberExample();
-        memberExample.createCriteria().andMobileEqualTo(req.getMobile());
-        List<Member> members = mapper.selectByExample(memberExample);
+    
+        Member memberDb = selectByMobile(req.getMobile());
         // 如果手机号不存在，则插入记录
-        if (CollUtil.isEmpty(members)){
+        if (ObjectUtil.isNull(memberDb)){
             Member member = new Member();
             member.setMobile(req.getMobile());
             member.setId(SnowUtil.getSnowflakeNextId());
@@ -58,9 +58,38 @@ public class MemberService {
         // 生成验证码
         String code = RandomUtil.randomString(4);
         LOG.info("手机验证码为: {}", code);
-        // 保存报信短信记录表:
+        // TODO 保存报信短信记录表:
         // 保存记录表: 手机号， 短信验证码， 有效期， 是否已经使用， 业务类型，发送时间，使用时间
         
-        // 对接短信通道，发送短信
+        // TODO 对接短信通道，发送短信
+    }
+    
+    public MemberLoginResp login(MemberLoginReq req){
+        String mobile = req.getMobile();
+        String code = req.getCode();
+        Member memberDb = selectByMobile(mobile);
+        // 如果手机号不存在，则插入记录
+        if (ObjectUtil.isNull(memberDb)){
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_NOT_EXIST);
+        }
+        
+        // 校验短信验证码
+        if (!"8888".equals(code)){
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_CODE_ERROR);
+        }
+    
+        MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDb, MemberLoginResp.class);
+        
+        return memberLoginResp;
+    }
+    
+    private Member selectByMobile(String mobile) {
+        MemberExample memberExample = new MemberExample();
+        memberExample.createCriteria().andMobileEqualTo(mobile);
+        List<Member> members = mapper.selectByExample(memberExample);
+        if (CollUtil.isEmpty(members)){
+            return null;
+        }
+        return members.get(0);
     }
 }
