@@ -1,13 +1,17 @@
 package com.rl.train.member.resp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.util.Date;
 
 public class PassengerQueryResp {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long memberId;
-
+    
+    @JsonSerialize(using = ToStringSerializer.class)
     private String name;
 
     private String idCard;
