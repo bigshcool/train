@@ -1,36 +1,20 @@
 package com.rl.train.member.req;
 
-import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
-
 import java.util.Date;
 
-public class PassengerSaveReq {
-    
-    
-    private Long id;
-    
+public class PassengerQueryReq {
     private Long memberId;
-    @NotBlank(message = "[名字]不能为空")
+
     private String name;
-    @NotBlank(message = "[会员号]不能为空")
+
     private String idCard;
     
-    @NotBlank(message = "长度只能为1")
-    @Length (min = 1,max = 1)
     private String type;
 
     private Date createTime;
 
     private Date updateTime;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getMemberId() {
         return memberId;
@@ -86,7 +70,6 @@ public class PassengerSaveReq {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
         sb.append(", memberId=").append(memberId);
         sb.append(", name=").append(name);
         sb.append(", idCard=").append(idCard);

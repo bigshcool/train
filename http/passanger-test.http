@@ -4,8 +4,12 @@ Content-Type: application/json
 token: {{token}}
 
 {
-  "memberId": "13000000000",
   "name": "8888",
   "idCard": "123321",
   "type": "1"
 }
+
+###
+GET http://localhost:8000/member/passenger/query-list
+Accept: application/json
+token: {{token}}
