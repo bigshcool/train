@@ -7,11 +7,12 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.util.Date;
 
 public class PassengerQueryResp {
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long memberId;
     
-    @JsonSerialize(using = ToStringSerializer.class)
     private String name;
 
     private String idCard;
@@ -24,7 +25,14 @@ public class PassengerQueryResp {
     @JsonFormat(pattern = "yyyy-MM-DD HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
     
-
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public Long getMemberId() {
         return memberId;
     }

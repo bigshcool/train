@@ -1,5 +1,6 @@
 package com.rl.train.member.req;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,9 +20,11 @@ public class PassengerSaveReq {
     @NotBlank(message = "长度只能为1")
     @Length (min = 1,max = 1)
     private String type;
-
+    
+    
+    @JsonFormat(pattern = "yyyy-MM-DD HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
+    @JsonFormat(pattern = "yyyy-MM-DD HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     public Long getId() {
