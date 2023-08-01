@@ -1,8 +1,10 @@
 package com.rl.train.member.req;
 
+import com.rl.train.common.req.PageReq;
+
 import java.util.Date;
 
-public class PassengerQueryReq {
+public class PassengerQueryReq extends PageReq {
     private Long memberId;
 
     private String name;
