@@ -2,6 +2,7 @@ package com.rl.train.member.controller;
 
 import com.rl.train.common.context.LoginMemberContext;
 import com.rl.train.common.resp.CommonResp;
+import com.rl.train.common.resp.PageResp;
 import com.rl.train.member.req.PassengerQueryReq;
 import com.rl.train.member.req.PassengerSaveReq;
 import com.rl.train.member.resp.PassengerQueryResp;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("passenger")
@@ -30,11 +29,11 @@ public class PassengerController {
     }
     
     @GetMapping("/query-list")
-    public CommonResp<List<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req){
+    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req){
         req.setMemberId(LoginMemberContext.getId());
-        List<PassengerQueryResp> list = passengerService.queryList(req);
-        System.out.println(list);
-        return new CommonResp<>(list);
+        PageResp<PassengerQueryResp> passengerQueryRespPageResp = passengerService.queryList(req);
+        System.out.println(passengerQueryRespPageResp);
+        return new CommonResp<>(passengerQueryRespPageResp);
     }
     
 }
