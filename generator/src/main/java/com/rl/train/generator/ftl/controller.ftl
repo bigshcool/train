@@ -3,10 +3,10 @@ package com.rl.train.member.controller;
 import com.rl.train.common.context.LoginMemberContext;
 import com.rl.train.common.resp.CommonResp;
 import com.rl.train.common.resp.PageResp;
-import com.rl.train.member.req.PassengerQueryReq;
-import com.rl.train.member.req.PassengerSaveReq;
-import com.rl.train.member.resp.PassengerQueryResp;
-import com.rl.train.member.service.PassengerService;
+import com.rl.train.member.req.${Domain}QueryReq;
+import com.rl.train.member.req.${Domain}SaveReq;
+import com.rl.train.member.resp.${Domain}QueryResp;
+import com.rl.train.member.service.${Domain}Service;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,29 +18,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/passenger")
-public class PassengerController {
+@RequestMapping("/${do_main}")
+public class ${Domain}Controller {
 
     @Resource
-    private PassengerService passengerService;
+    private ${Domain}Service ${domain}Service;
 
     @PostMapping("save")
-    public CommonResp<Object> save(@Valid @RequestBody PassengerSaveReq req){
-        passengerService.save(req);
+    public CommonResp<Object> save(@Valid @RequestBody ${Domain}SaveReq req){
+        ${domain}Service.save(req);
         return new CommonResp<>();
     }
 
     @GetMapping("/query-list")
-    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req){
+    public CommonResp<PageResp<${Domain}QueryResp>> queryList(@Valid ${Domain}QueryReq req){
         req.setMemberId(LoginMemberContext.getId());
-        PageResp<PassengerQueryResp> passengerQueryRespPageResp = passengerService.queryList(req);
-        System.out.println(passengerQueryRespPageResp);
-        return new CommonResp<>(passengerQueryRespPageResp);
+        PageResp<${Domain}QueryResp> ${domain}QueryRespPageResp = ${domain}Service.queryList(req);
+        System.out.println(${domain}QueryRespPageResp);
+        return new CommonResp<>(${domain}QueryRespPageResp);
     }
 
     @DeleteMapping("/delete/{id}")
     public CommonResp<Object> delete(@PathVariable Long id){
-        passengerService.delete(id);
+        ${domain}Service.delete(id);
         return new CommonResp<>();
     }
 }
