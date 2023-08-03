@@ -13,7 +13,10 @@ import org.dom4j.io.SAXReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class ServerGenerator {
      static String toPath = "train-[module]/src/main/java/com/rl/train/[module]/[Package]/" ;
@@ -27,14 +30,16 @@ public class ServerGenerator {
 //        FreemarkerUtil.generator(toPath + "Test.java", param);
         // 动态获取xml文件中service输出的路径
         HashMap<String, Object> params = initParams();
-        gen(params,"service");
-        gen(params,"controller");
+        gen(params,"service", "service");
+        gen(params,"controller", "controller");
+        gen(params, "Req","saveReq");
     }
     
-    private static void gen(HashMap<String, Object> params, String target) throws IOException, TemplateException {
+    private static void gen(HashMap<String, Object> params, String packageName ,String target) throws IOException, TemplateException {
         FreemarkerUtil.initConfig(target  + ".ftl");
         String classPackageTail = target.substring(0, 1).toUpperCase() +  target.substring(1);
-        String baseFolder = toPath.replace("[Package]", target);
+        String baseFolder = toPath.replace("[Package]", packageName);
+        System.out.println(baseFolder);
         new File(baseFolder).mkdirs();
         FreemarkerUtil.generator(baseFolder + params.get("Domain") + classPackageTail +".java", params);
     }
@@ -60,6 +65,7 @@ public class ServerGenerator {
         params.put("domain", domain);
         params.put("Domain", Domain);
         params.put("do_main", do_main);
+        params.put("module", module);
         // 读取数据源
         DbUtil.url = document.selectSingleNode("//@connectionURL").getText();
         DbUtil.user = document.selectSingleNode("//@userId").getText();
@@ -68,6 +74,10 @@ public class ServerGenerator {
         String tableNameCn = DbUtil.getTableComment(tableName.getText());
         // 获取表的列信息
         List<Field> fieldList = DbUtil.getColumnByTableName(tableName.getText());
+        Set<String> javaTypes = getJavaTypes(fieldList);
+        params.put("tableNameCn", tableNameCn);
+        params.put("fieldList", fieldList);
+        params.put("typeSet", javaTypes);
         System.out.println(params);
         return params;
     }
@@ -81,6 +91,20 @@ public class ServerGenerator {
         Node node = document.selectSingleNode("//pom:configurationFile");
         return node.getText();
     }
+    
+    /**
+     * 获取所有的java类型，使用Set去重
+     * */
+    private static Set<String> getJavaTypes(List<Field> fieldList){
+        Set<String> set = new HashSet<>();
+        Iterator<Field> iterator = fieldList.iterator();
+        while (iterator.hasNext()){
+            Field field = iterator.next();
+            set.add(field.getJavaType());
+        }
+        return set;
+    }
+    
     
     
 }
