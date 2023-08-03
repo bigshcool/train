@@ -1,12 +1,12 @@
-package com.rl.train.member.controller;
+package com.rl.train.${module}.controller;
 
 import com.rl.train.common.context.LoginMemberContext;
 import com.rl.train.common.resp.CommonResp;
 import com.rl.train.common.resp.PageResp;
-import com.rl.train.member.req.${Domain}QueryReq;
-import com.rl.train.member.req.${Domain}SaveReq;
-import com.rl.train.member.resp.${Domain}QueryResp;
-import com.rl.train.member.service.${Domain}Service;
+import com.rl.train.${module}.req.${Domain}QueryReq;
+import com.rl.train.${module}.req.${Domain}SaveReq;
+import com.rl.train.${module}.resp.${Domain}QueryResp;
+import com.rl.train.${module}.service.${Domain}Service;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
