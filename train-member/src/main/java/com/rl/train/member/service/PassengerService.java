@@ -23,12 +23,12 @@ import java.util.List;
 
 @Service
 public class PassengerService {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(PassengerService.class);
-    
+
     @Resource
     private PassengerMapper passengerMapper;
-    
+
     public void save(PassengerSaveReq req){
         DateTime now = DateTime.now();
         Passenger passenger = BeanUtil.copyProperties(req, Passenger.class);
@@ -44,7 +44,7 @@ public class PassengerService {
         }
 
     }
-    
+
     public PageResp<PassengerQueryResp> queryList(PassengerQueryReq req){
         PassengerExample passengerExample = new PassengerExample();
         PassengerExample.Criteria criteria = passengerExample.createCriteria();
@@ -56,14 +56,14 @@ public class PassengerService {
         PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
         LOG.info("总行数: {}", pageInfo.getTotal());
         LOG.info("总页数: {}", pageInfo.getPages());
-        
+
         List<PassengerQueryResp> list = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
         PageResp<PassengerQueryResp> pageResp = new PageResp<>();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
         return pageResp;
     }
-    
+
     public void delete(Long id) {
         PassengerExample passengerExample = new PassengerExample();
         passengerExample.createCriteria().andMemberIdEqualTo(LoginMemberContext.getId()).andIdEqualTo(id);
