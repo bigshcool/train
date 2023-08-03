@@ -1,6 +1,8 @@
 package com.rl.train.generator.server;
 
 
+import com.rl.train.generator.util.DbUtil;
+import com.rl.train.generator.util.Field;
 import com.rl.train.generator.util.FreemarkerUtil;
 import freemarker.template.TemplateException;
 import org.dom4j.Document;
@@ -11,6 +13,7 @@ import org.dom4j.io.SAXReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class ServerGenerator {
      static String toPath = "train-[module]/src/main/java/com/rl/train/[module]/[Package]/" ;
@@ -36,7 +39,7 @@ public class ServerGenerator {
         FreemarkerUtil.generator(baseFolder + params.get("Domain") + classPackageTail +".java", params);
     }
     
-    private static HashMap<String, Object> initParams() throws DocumentException {
+    private static HashMap<String, Object> initParams() throws Exception {
         String generatorPah = getGeneratorPah();
         String module = generatorPah.replace("src/main/resources/generator-config-", "").replace(".xml", "");
         System.out.println(module);
@@ -57,6 +60,14 @@ public class ServerGenerator {
         params.put("domain", domain);
         params.put("Domain", Domain);
         params.put("do_main", do_main);
+        // 读取数据源
+        DbUtil.url = document.selectSingleNode("//@connectionURL").getText();
+        DbUtil.user = document.selectSingleNode("//@userId").getText();
+        DbUtil.password = document.selectSingleNode("//@password").getText();
+        // 获取表的中文
+        String tableNameCn = DbUtil.getTableComment(tableName.getText());
+        // 获取表的列信息
+        List<Field> fieldList = DbUtil.getColumnByTableName(tableName.getText());
         System.out.println(params);
         return params;
     }
