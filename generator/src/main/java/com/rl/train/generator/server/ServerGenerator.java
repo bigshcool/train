@@ -32,11 +32,11 @@ public class ServerGenerator {
 //        FreemarkerUtil.generator(toPath + "Test.java", param);
         // 动态获取xml文件中service输出的路径
         HashMap<String, Object> params = initParams();
-//        gen(params,"service", "service");
-//        gen(params,"controller", "controller");
-//        gen(params, "req","saveReq");
-//        gen(params, "req", "queryReq");
-//        gen(params, "resp", "queryResp");
+        gen(params,"service", "service");
+        gen(params,"controller", "controller");
+        gen(params, "req","saveReq");
+        gen(params, "req", "queryReq");
+        gen(params, "resp", "queryResp");
         genVue(params.get("do_main"),params);
     }
     

@@ -6,10 +6,7 @@
       </router-link>
     </div>
     <div style="float: right; color: white;">
-      您好：{{member.mobile}} &nbsp;&nbsp;
-      <router-link to="/login" style="color: white;">
-        退出登录
-      </router-link>
+      欢迎使用登录控台
     </div>
     <a-menu
         v-model:selectedKeys="selectedKeys"
@@ -22,44 +19,29 @@
           <coffee-outlined /> &nbsp; 欢迎
         </router-link>
       </a-menu-item>
-      <a-menu-item key="/passenger">
-        <router-link to="/passenger">
-          <user-outlined /> &nbsp; 乘车人管理
+      <a-menu-item key="/about">
+        <router-link to="/about">
+          <user-outlined /> &nbsp; &nbsp; 关于
         </router-link>
       </a-menu-item>
-      <a-menu-item key="/ticket">
-        <router-link to="/ticket">
-          <border-outer-outlined /> &nbsp; 余票查询
+      <a-menu-item key="/station">
+        <router-link to="/station">
+          <user-outlined /> &nbsp; &nbsp; 车站管理
         </router-link>
       </a-menu-item>
-      <a-menu-item key="/my-ticket">
-        <router-link to="/my-ticket">
-          <idcard-outlined /> &nbsp; 我的车票
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="/seat">
-        <router-link to="/seat">
-          <usergroup-add-outlined /> &nbsp; 座位销售图
-        </router-link>
-      </a-menu-item>
-      <a-menu-item key="/admin">
-        <router-link to="/admin">
-          <desktop-outlined /> &nbsp; 关于控台管理
-        </router-link>
-      </a-menu-item>
+
+
     </a-menu>
   </a-layout-header>
 </template>
 
 <script>
 import {defineComponent, ref, watch} from 'vue';
-import store from "@/store";
 import router from '@/router'
 
 export default defineComponent({
   name: "the-header-view",
   setup() {
-    let member = store.state.member;
     const selectedKeys = ref([]);
 
     watch(() => router.currentRoute.value.path, (newValue) => {
@@ -68,7 +50,6 @@ export default defineComponent({
       selectedKeys.value.push(newValue);
     }, {immediate: true});
     return {
-      member,
       selectedKeys
     };
   },

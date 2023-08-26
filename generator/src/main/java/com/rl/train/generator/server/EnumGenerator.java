@@ -2,7 +2,6 @@ package com.rl.train.generator.server;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.rl.train.member.enums.PassengerTypeEnum;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -22,7 +21,7 @@ public class EnumGenerator {
         StringBuffer bufferArray = new StringBuffer();
         long begin = System.currentTimeMillis();
         try {
-            toJson(PassengerTypeEnum.class, bufferObject, bufferArray);
+//            toJson(PassengerTypeEnum.class, bufferObject, bufferArray);
 
             StringBuffer buffer = bufferObject.append("\r\n").append(bufferArray);
             writeJs(buffer);

@@ -44,12 +44,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
         </dependency>
-        <dependency>
-            <groupId>com.rl</groupId>
-            <artifactId>train-member</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+        
+<!--        <dependency>-->
+<!--            <groupId>com.rl</groupId>-->
+<!--            <artifactId>train-business</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
     </dependencies>
     
     <build>
@@ -60,8 +61,8 @@
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                     <configurationFile>src/main/resources/generator-config-member.xml</configurationFile>
-<!--                    <configurationFile>src/main/resources/generator-config-business.xml</configurationFile>-->
+<!--                     <configurationFile>src/main/resources/generator-config-member.xml</configurationFile>-->
+                    <configurationFile>src/main/resources/generator-config-business.xml</configurationFile>
                     <!-- <configurationFile>src/main/resources/generator-config-batch.xml</configurationFile> -->
                     <overwrite>true</overwrite>
                     <verbose>true</verbose>
