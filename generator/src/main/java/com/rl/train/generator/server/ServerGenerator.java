@@ -20,9 +20,11 @@ import java.util.Set;
 
 public class ServerGenerator {
      static String toPath = "train-[module]/src/main/java/com/rl/train/[module]/[Package]/" ;
-     
+     static String vuePath = "web/src/views/main/";
      static String pomPath = "generator/pom.xml";
-     
+    
+    private static boolean readOnly = false;
+    
     public static void main(String[] args) throws Exception {
 //        FreemarkerUtil.initConfig("test.ftl");
 //        Map<String, Object> param = new HashMap<>();
@@ -30,9 +32,20 @@ public class ServerGenerator {
 //        FreemarkerUtil.generator(toPath + "Test.java", param);
         // 动态获取xml文件中service输出的路径
         HashMap<String, Object> params = initParams();
-        gen(params,"service", "service");
-        gen(params,"controller", "controller");
-        gen(params, "Req","saveReq");
+//        gen(params,"service", "service");
+//        gen(params,"controller", "controller");
+//        gen(params, "req","saveReq");
+//        gen(params, "req", "queryReq");
+//        gen(params, "resp", "queryResp");
+        genVue(params.get("do_main"),params);
+    }
+    
+    private static void genVue(Object do_main, HashMap<String, Object> params) throws IOException, TemplateException {
+        FreemarkerUtil.initConfig("vue.ftl");
+        new File(vuePath).mkdirs();
+        String fileName = vuePath + do_main + ".vue";
+        System.out.println("开始生成: " + fileName);
+        FreemarkerUtil.generator(fileName, params);
     }
     
     private static void gen(HashMap<String, Object> params, String packageName ,String target) throws IOException, TemplateException {
@@ -66,6 +79,7 @@ public class ServerGenerator {
         params.put("Domain", Domain);
         params.put("do_main", do_main);
         params.put("module", module);
+        params.put("readOnly", readOnly);
         // 读取数据源
         DbUtil.url = document.selectSingleNode("//@connectionURL").getText();
         DbUtil.user = document.selectSingleNode("//@userId").getText();

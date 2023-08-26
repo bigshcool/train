@@ -1,6 +1,5 @@
 package com.rl.train.member.controller;
 
-import com.rl.train.common.context.LoginMemberContext;
 import com.rl.train.common.resp.CommonResp;
 import com.rl.train.common.resp.PageResp;
 import com.rl.train.member.req.PassengerQueryReq;
@@ -24,7 +23,7 @@ public class PassengerController {
     @Resource
     private PassengerService passengerService;
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public CommonResp<Object> save(@Valid @RequestBody PassengerSaveReq req){
         passengerService.save(req);
         return new CommonResp<>();
@@ -32,7 +31,6 @@ public class PassengerController {
 
     @GetMapping("/query-list")
     public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req){
-        req.setMemberId(LoginMemberContext.getId());
         PageResp<PassengerQueryResp> passengerQueryRespPageResp = passengerService.queryList(req);
         System.out.println(passengerQueryRespPageResp);
         return new CommonResp<>(passengerQueryRespPageResp);
