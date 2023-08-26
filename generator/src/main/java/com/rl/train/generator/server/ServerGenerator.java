@@ -33,7 +33,7 @@ public class ServerGenerator {
         // 动态获取xml文件中service输出的路径
         HashMap<String, Object> params = initParams();
         gen(params,"service", "service");
-        gen(params,"controller", "controller");
+        gen(params,"controller/admin", "adminController");
         gen(params, "req","saveReq");
         gen(params, "req", "queryReq");
         gen(params, "resp", "queryResp");
