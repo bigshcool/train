@@ -30,6 +30,30 @@
         </router-link>
       </a-menu-item>
 
+      <a-menu-item key="/train">
+        <router-link to="/train">
+          <user-outlined /> &nbsp; &nbsp; 火车管理
+        </router-link>
+      </a-menu-item>
+
+      <a-menu-item key="/train-station">
+        <router-link to="/train-station">
+          <user-outlined /> &nbsp; &nbsp; 火车车站管理
+        </router-link>
+      </a-menu-item>
+
+      <a-menu-item key="/train-carriage">
+        <router-link to="/train-carriage">
+          <user-outlined /> &nbsp; &nbsp; 火车车厢管理
+        </router-link>
+      </a-menu-item>
+
+      <a-menu-item key="/train-seat">
+        <router-link to="/train-seat">
+          <user-outlined /> &nbsp; &nbsp; 火车座位
+        </router-link>
+      </a-menu-item>
+
 
     </a-menu>
   </a-layout-header>
